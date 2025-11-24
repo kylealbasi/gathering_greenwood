@@ -10,7 +10,6 @@
   import utils from '@utils/utils.js';
   import { useFaMapService } from '@Composables/useFaMapservice.js';
   import DetailDrawer from './components/Utility/DetailDrawer.vue';
-  import DetailDrawerExample from './components/Utility/DetailDrawerExample.vue';
 
   const { fontAwesomeCharacterCode } = useFaMapService();
   const emptyGeoJson = {type:'geojson',data:{id: 'search-source', type: 'FeatureCollection', features: []}};
