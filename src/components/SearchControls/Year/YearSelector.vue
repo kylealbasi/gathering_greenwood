@@ -46,18 +46,23 @@ onBeforeMount(() => {
   buildYears();
 });
 
-onMounted(() => {
-  // Set the default year to the last year in the array
-  //const defaultYear = years.value[years.value.length - 1].value;
-  const defaultYear = "1920";
-  selected.value = defaultYear;
-  var selector = `input[value="${defaultYear}"]`;
-  var el = document.querySelector(selector);
-  setYear(defaultYear, { target: el });
-});
+  onMounted(() => {
+    // Set the default year to 1920 (where the actual census data is)
+    const defaultYear = "1920";
+    selected.value = defaultYear;
+    var selector = `input[value="${defaultYear}"]`;
+    var el = document.querySelector(selector);
+    setYear(defaultYear, { target: el });
+  });
 
 // Function to set the year
 function setYear(year, event) {
+  console.log('🎯 YearSelector.setYear called with:', {
+    year,
+    yearType: typeof year,
+    eventTargetValue: event.target?.value,
+    eventTargetId: event.target?.id
+  });
 
   // Remove the class from the previously clicked element
   if (clickedElement.value) {
@@ -77,6 +82,7 @@ function setYear(year, event) {
   document.querySelector(`label[for="${clickedElement.value.id}"]`).classList.add('selected');
 
   // Call the function passed from the parent to set the year
+  console.log('  ➡️  Calling onYearChange with:', year);
   props.onYearChange(year);
 }
 

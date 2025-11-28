@@ -97,17 +97,26 @@ class ResultsJson {
       throw new Error("Invalid year");
     }
 
-    year = Number.parseInt(year);
-
-    return new ResultsJson({
-      buildings: this.buildings.filter((b) => b.year === year),
-      people: this.people.filter((p) => p.year === year),
-      census_records: this.census_records.filter((r) => r.year === year),
-      documents: this.documents.filter((d) => d.year === year),
-      media: this.media.filter((m) => m.year === year),
-      stories: this.stories.filter((s) => s.year === year),
-      count: this.count.filter((c) => c.year === year)
+    const yearInt = Number.parseInt(year);
+    console.log('🔍 ResultsJson.filterByYear:', {
+      yearString: year,
+      yearInt: yearInt,
+      buildingsBeforeFilter: this.buildings.length,
+      buildingYears: [...new Set(this.buildings.map(b => b.year))]
     });
+
+    const filtered = new ResultsJson({
+      buildings: this.buildings.filter((b) => b.year === yearInt),
+      people: this.people.filter((p) => p.year === yearInt),
+      census_records: this.census_records.filter((r) => r.year === yearInt),
+      documents: this.documents.filter((d) => d.year === yearInt),
+      media: this.media.filter((m) => m.year === yearInt),
+      stories: this.stories.filter((s) => s.year === yearInt),
+      count: this.count.filter((c) => c.year === yearInt)
+    });
+
+    console.log('  Filtered buildings:', filtered.buildings.length);
+    return filtered;
   }
 
   TotalCount() {

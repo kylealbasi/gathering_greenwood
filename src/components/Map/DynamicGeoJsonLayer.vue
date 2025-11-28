@@ -97,13 +97,15 @@ import DetailDrawer from '../Utility/DetailDrawer.vue';
   // Conditionally apply filter based on string year
   const layerDefinition = computed(() => {
     const includeSearch = props.layerId.includes("search");
-    const YearExemptLayers = ['1920-burned-area-layer', 'poi-layer', '1920-street-layer', '1920-building-layer'];
+    const YearExemptLayers = ['1920-burned-area-layer', 'poi-layer', '1920-street-layer', '1920-building-layer', 'search-layer'];
     const hasYear = props.filterYear && utils.isYear(props.filterYear);
     const hasSearchTerm = !!props.searchTerm && includeSearch;
 
     const filterParts = ['all'];
 
-    if (hasYear && !YearExemptLayers.includes(props.layerId)) {
+    const isYearExempt = YearExemptLayers.includes(props.layerId);
+
+    if (hasYear && !isYearExempt) {
       filterParts.push(['==', ['get', 'year'], props.filterYear === "" ? "" : Number.parseInt(props.filterYear)]);
     }
 
@@ -112,6 +114,13 @@ import DetailDrawer from '../Utility/DetailDrawer.vue';
     }
 
     const filter = filterParts;
+
+    console.log(`🗺️ Layer ${props.layerId}:`, {
+      filterYear: props.filterYear,
+      isYearExempt,
+      hasYearFilter: hasYear && !isYearExempt,
+      filter: JSON.stringify(filter)
+    });
 
     return {
       id: props.layerId,
